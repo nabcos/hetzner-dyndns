@@ -24,7 +24,8 @@ def print_help():
 
         Config locations:
         {"%s/.config/local-tooling/config.ini"%(os.environ.get("HOME"),)}
-        {"/usr/local/etc/hetzner-dyndns.ini"}
+        "/usr/local/etc/hetzner-dyndns.ini"
+        "/etc/hetzner-dyndns.ini"
 
         """
     )
@@ -36,7 +37,7 @@ def load_config():
   cfg.read(
     [
       "%s/.config/local-tooling/config.ini"%(os.environ.get("HOME"),),
-      "/usr/local/etc/hetzner-dyndns.ini"
+      "/usr/local/etc/hetzner-dyndns.ini",
       "/etc/hetzner-dyndns.ini"
     ]
   )
