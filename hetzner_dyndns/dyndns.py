@@ -43,7 +43,7 @@ TOKEN = cfg["hetzner-dyndns"]["token"]
 ZONE_ID = cfg["hetzner-dyndns"]["zone_id"]
 RECORD_NAME = cfg["hetzner-dyndns"]["record_name"]
 
-if TOKEN is None or ZONE_ID is None:
+if TOKEN is None or ZONE_ID is None or RECORD_NAME is None:
     print_help()
 
 def ipinfo():
@@ -53,24 +53,20 @@ def ipinfo():
     logger.debug(f"Got external IP: {data['ip']}")
     return data['ip']
 
-def update_record(zone_id, name, type, value, token, record_id=None, name_new=None, ttl=3600, url=API_URL):
+def update_record(zone_id, name, type, value, token, record_id=None, ttl=3600, url=API_URL):
     """
     Update existing record
 
-    :param zone: Name of the zone, eg. example.org
-    :param name: Name of the record, eg. www
-    :param value: New value of the record eg. 1.1.1.1
-    :param type: Type of record eg. A, valid are A, AAAA, NS, MX, CNAME, RP, TXT, SOA, HINFO, SRV, DANE, TLSA, DS, CAA
-    :param name_new: New name of the record, eg. www
-    :param record_id: Record ID if record is not unique
-    :param ttl: Time to live
+    zone: Name of the zone, e.g. example.org
+    name: Name of the record, e.g. www
+    value: New value of the record, e.g. 127.0.0.1
+    type: Type of record. Valid values are A, AAAA, NS, MX, CNAME, RP, TXT, SOA, HINFO, SRV, DANE, TLSA, DS, CAA
+    record_id: Record ID if record is not unique
+    ttl: Time to live
     """
     try:
         if url is None:
             return
-
-        if name_new is None:
-            name_new = name
 
         if record_id is None:
             record_id = _get_record_id(zone_id, name, type, value)
@@ -82,10 +78,10 @@ def update_record(zone_id, name, type, value, token, record_id=None, name_new=No
                 "Auth-API-Token": token,
             },
             data=json.dumps({
-                "value": value_new,
+                "value": value,
                 "ttl": ttl,
                 "type": type,
-                "name": name_new,
+                "name": name,
                 "zone_id": zone_id
             })
         )
