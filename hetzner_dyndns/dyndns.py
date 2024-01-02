@@ -8,12 +8,13 @@ from loguru import logger
 API_URL = "dns.hetzner.com"
 TOKEN = None
 ZONE_ID = None
+IPINFO_TOKEN = ""
 
 def print_help():
     print(
         f"""
         Configuration missing!
-        All keys are mandatory.
+        ipinfo_token is optional, other keys are mandatory.
 
           [hetzner-dyndns]
           token=
@@ -42,13 +43,13 @@ cfg = load_config()
 TOKEN = cfg["hetzner-dyndns"]["token"]
 ZONE_ID = cfg["hetzner-dyndns"]["zone_id"]
 RECORD_NAME = cfg["hetzner-dyndns"]["record_name"]
+IPINFO_TOKEN = cfg["hetzner-dyndns"]["ipinfo_token"]
 
 if TOKEN is None or ZONE_ID is None or RECORD_NAME is None:
     print_help()
 
 def ipinfo():
-    URL = "http://ipinfo.io?token="
-    response = requests.get(URL)
+    response = requests.get(f"http://ipinfo.io?token={IPINFO_TOKEN}")
     data = json.loads(response.content)
     logger.debug(f"Got external IP: {data['ip']}")
     return data['ip']
