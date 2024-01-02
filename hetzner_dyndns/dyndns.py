@@ -62,17 +62,20 @@ def update_record(zone_id, name, type, value, token, record_id=None, ttl=3600, u
 
     zone: Name of the zone, e.g. example.org
     name: Name of the record, e.g. www
-    value: New value of the record, e.g. 127.0.0.1
     type: Type of record. Valid values are A, AAAA, NS, MX, CNAME, RP, TXT, SOA, HINFO, SRV, DANE, TLSA, DS, CAA
+    value: New value of the record, e.g. 127.0.0.1
+    token: API token for the DNS API
     record_id: Record ID if record is not unique
     ttl: Time to live
+    url: API URL to use
     """
+    logger.debug(f"Updating record {name} for zone_id {zone_id}") 
     try:
         if url is None:
             return
 
         if record_id is None:
-            record_id = _get_record_id(zone_id, name, type, value)
+            record_id = _get_record_id(zone_id, name, type, token)
 
         response = requests.put(
             url=f"https://{url}/api/v1/records/{record_id}",
@@ -102,6 +105,7 @@ def update_record(zone_id, name, type, value, token, record_id=None, ttl=3600, u
 
 def _get_record_id(zone_id, name, type, token):
     """ Get the record id if record is unique """
+    logger.debug(f"Getting record id for {name}...")
     try:
         # get all records of domain
         response = requests.get(
@@ -133,8 +137,7 @@ def _get_record_id(zone_id, name, type, token):
                 return False
 
         else:
-            print("Error occured")
-            print(content)
+            logger.error(f"Error occured : {content}")
 
     except requests.exceptions.RequestException as e:
         logger.exception(e)
