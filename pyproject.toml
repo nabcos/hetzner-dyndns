@@ -1,0 +1,13 @@
+[project]
+name='hetzner-dyndns'
+version='0.1'
+description='Use Hetzner DNS as a dyndns target'
+dependencies =['loguru', 'requests']
+authors=[{name='Benjamin Hanzelmann',email='benjamin@hanzelmann.de'}]
+license={text = 'MIT License'}
+
+[project.urls]
+Repository = 'https://git.nabcos.de/...'
+
+[project.scripts]
+hddns = "hetzner_dyndns.dyndns:main"

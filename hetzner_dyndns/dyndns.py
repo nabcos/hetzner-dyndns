@@ -140,4 +140,5 @@ def _get_record_id(zone_id, name, type, token):
     except requests.exceptions.RequestException as e:
         logger.exception(e)
 
-update_record(ZONE_ID, RECORD_NAME, "A", ipinfo(), TOKEN)
+def main():
+    update_record(ZONE_ID, RECORD_NAME, "A", ipinfo(), TOKEN)
