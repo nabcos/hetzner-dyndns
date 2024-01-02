@@ -34,8 +34,11 @@ def load_config():
   import configparser
   cfg = configparser.ConfigParser()
   cfg.read(
-      ["%s/.config/local-tooling/config.ini"%(os.environ.get("HOME"),),
-      "/usr/local/etc/hetzner-dyndns.ini"]
+    [
+      "%s/.config/local-tooling/config.ini"%(os.environ.get("HOME"),),
+      "/usr/local/etc/hetzner-dyndns.ini"
+      "/etc/hetzner-dyndns.ini"
+    ]
   )
   if not "hetzner-dyndns" in cfg:
     print_help()
