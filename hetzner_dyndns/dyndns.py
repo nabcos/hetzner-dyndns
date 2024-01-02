@@ -37,13 +37,15 @@ def load_config():
       ["%s/.config/local-tooling/config.ini"%(os.environ.get("HOME"),),
       "/usr/local/etc/hetzner-dyndns.ini"]
   )
-  return cfg
+  return cfg["hetzner-dyndns"]
 
 cfg = load_config()
-TOKEN = cfg["hetzner-dyndns"]["token"]
-ZONE_ID = cfg["hetzner-dyndns"]["zone_id"]
-RECORD_NAME = cfg["hetzner-dyndns"]["record_name"]
-IPINFO_TOKEN = cfg["hetzner-dyndns"]["ipinfo_token"]
+TOKEN = cfg["token"]
+ZONE_ID = cfg["zone_id"]
+RECORD_NAME = cfg["record_name"]
+
+if "ipinfo_token" in cfg:
+  IPINFO_TOKEN = cfg["ipinfo_token"]
 
 if TOKEN is None or ZONE_ID is None or RECORD_NAME is None:
     print_help()
