@@ -150,4 +150,4 @@ def _get_record_id(zone_id, name, type, token):
         logger.exception(e)
 
 def main():
-    update_record(ZONE_ID, RECORD_NAME, "A", ipinfo(), TOKEN)
+    update_record(ZONE_ID, RECORD_NAME, "A", ipinfo(), TOKEN, ttl=60)
