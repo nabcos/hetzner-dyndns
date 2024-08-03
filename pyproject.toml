@@ -1,6 +1,6 @@
 [project]
 name='hetzner-dyndns'
-version='0.4.1'
+version='0.4.2'
 description='Use Hetzner DNS as a dyndns target'
 dependencies =['loguru', 'requests']
 authors=[{name='Benjamin Hanzelmann',email='benjamin@hanzelmann.de'}]
